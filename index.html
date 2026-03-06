@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="momo's new life">
+<title>momo's new life</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FBF5EA;--ww:#FFFDF7;--yellow:#F2D86A;--ys:#FFF8D6;--yg:#F9E88A;--pink:#F2A0B8;--pd:#E8658E;--ps:#FDE0EA;--green:#B8D4A0;--gd:#7EAD52;--gs:#E6F0D6;--lav:#C4B4E2;--ld:#9B7ED8;--ls:#EDE4F8;--blue:#A4C8E0;--bs:#D8ECF6;--peach:#F5C6A0;--pchs:#FDECD8;--coral:#E89080;--mint:#A0D8C8;--ms:#D4F0E8;--text:#2D2A26;--tm:#5A554D;--tmu:#8A8478;--bdr:#E8E0D2;--ecom:#E8658E;--phd:#7EAD52;--acc:#9B7ED8;--ok:#6AAF5C}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;-webkit-tap-highlight-color:transparent}
+.header{padding:24px 16px 16px;position:sticky;top:0;z-index:100;background:linear-gradient(135deg,var(--yellow) 0%,var(--yg) 40%,var(--pchs) 100%);border-bottom:2px solid rgba(0,0,0,0.05)}
+.header-inner{max-width:600px;margin:0 auto}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between}
+.header h1{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;font-style:italic;color:var(--text);line-height:1.15}
+.header .motto{font-size:12px;color:var(--tm);margin-top:4px;font-style:italic;font-weight:500;letter-spacing:0.3px}
+.date-pill{display:inline-flex;align-items:center;gap:6px;background:var(--ww);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,0.06);white-space:nowrap}
+.date-pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--gd)}
+.tabs{display:flex;gap:6px;margin-top:16px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab-btn{padding:8px 16px;border:2px solid transparent;border-radius:24px;background:rgba(255,255,255,0.55);backdrop-filter:blur(4px);color:var(--tm);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'DM Sans',sans-serif;transition:all 0.25s}
+.tab-btn:hover{background:rgba(255,255,255,0.8)}
+.tab-btn.active{background:var(--ww);color:var(--text);border-color:var(--text);box-shadow:0 2px 10px rgba(0,0,0,0.08)}
+.tab-btn .badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;margin-left:4px;font-weight:700;background:var(--ps);color:var(--ecom)}
+.tab-btn.active .badge{background:var(--pd);color:#fff}
+.content{max-width:600px;margin:0 auto;padding:20px 16px 100px}
+.card{border-radius:22px;padding:22px;margin-bottom:14px;position:relative;overflow:hidden}
+.card-w{background:var(--ww);border:1.5px solid var(--bdr)}
+.card-y{background:var(--ys);border:1.5px solid rgba(242,216,106,0.4)}
+.card-p{background:var(--ps);border:1.5px solid rgba(242,160,184,0.3)}
+.card-g{background:var(--gs);border:1.5px solid rgba(184,212,160,0.4)}
+.card-l{background:var(--ls);border:1.5px solid rgba(196,180,226,0.35)}
+.card-b{background:var(--bs);border:1.5px solid rgba(164,200,224,0.35)}
+.card-pc{background:var(--pchs);border:1.5px solid rgba(245,198,160,0.35)}
+.card-m{background:var(--ms);border:1.5px solid rgba(160,216,200,0.35)}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:14px;font-size:11px;font-weight:700}
+.pill-e{background:var(--pink);color:#fff}
+.pill-p{background:var(--green);color:var(--text)}
+.pill-i{background:var(--blue);color:var(--text)}
+.stat-row{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.stat-chip{flex:1;min-width:80px;padding:12px 14px;border-radius:16px;text-align:center}
+.stat-chip .num{font-family:'Playfair Display',serif;font-size:22px;font-weight:700}
+.stat-chip .lbl{font-size:10px;color:var(--tm);margin-top:2px;font-weight:600}
+.check-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;cursor:pointer;user-select:none}
+.cb{width:20px;height:20px;min-width:20px;border-radius:50%;border:2px solid var(--bdr);margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:11px;color:#fff;font-weight:700}
+.cb.ck{background:var(--ok);border-color:var(--ok)}
+.ct{font-size:14px;line-height:1.5;transition:all 0.2s}
+.ct.ck{color:var(--tmu);text-decoration:line-through}
+.ch{margin-left:30px;font-size:12px;color:var(--tmu);line-height:1.5;margin-bottom:6px;font-style:italic}
+.pb{background:rgba(0,0,0,0.06);border-radius:6px;height:8px;width:100%;overflow:hidden}
+.pf{height:100%;border-radius:6px;transition:width 0.5s ease}
+.wh{font-family:'Playfair Display',serif;font-size:16px;font-weight:400;color:var(--text);padding:12px 18px;border-radius:16px;margin-bottom:10px;font-style:italic;background:linear-gradient(135deg,var(--ys) 0%,var(--pchs) 100%);border:1px solid rgba(242,216,106,0.3)}
+.dc{background:var(--ww);border:1.5px solid var(--bdr);border-radius:18px;padding:16px 18px;margin-bottom:8px}
+.dc.ist{background:linear-gradient(135deg,var(--ls) 0%,var(--ps) 100%);border-color:var(--lav);box-shadow:0 2px 12px rgba(155,126,216,0.12)}
+.dt{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.tb{font-size:10px;background:linear-gradient(135deg,var(--ld),var(--pd));color:#fff;padding:3px 12px;border-radius:12px;font-weight:700}
+.tc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:600px){.tc{grid-template-columns:1fr;gap:6px}}
+.ms{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap}
+.mb{padding:6px 14px;border-radius:20px;border:1.5px solid var(--bdr);background:var(--ww);color:var(--tmu);font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.mb:hover{border-color:var(--text);color:var(--text)}
+.mb.ac{background:var(--text);color:var(--ww);border-color:var(--text)}
+.pt{font-size:10px;font-weight:700;padding:3px 10px;border-radius:14px;display:inline-block}
+.p1{color:var(--ld);background:var(--ls)}.p2{color:var(--ecom);background:var(--ps)}.p3{color:var(--phd);background:var(--gs)}
+.ti{background:var(--ww);border:1.5px solid var(--bdr);border-radius:18px;padding:14px 16px;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:all 0.25s}
+.ti:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,0.06)}
+.tn{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;min-width:44px}
+.po{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:24px}
+@media(max-width:420px){.po{grid-template-columns:1fr}}
+.pc{border-radius:18px;padding:16px;text-align:center}
+.na{width:100%;min-height:100px;background:var(--cream);border:1.5px solid var(--bdr);border-radius:14px;padding:14px;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;resize:vertical;line-height:1.7;outline:none}
+.na:focus{border-color:var(--acc)}
+.es{text-align:center;padding:40px 20px}
+.es .ic{font-size:44px;margin-bottom:14px}
+.es h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;font-style:italic;margin-bottom:6px}
+.es p{font-size:13px;color:var(--tmu)}
+.st{font-family:'Playfair Display',serif;font-size:20px;font-weight:400;font-style:italic;margin-bottom:18px}
+</style>
+
+<div class="header"><div class="header-inner"><div class="header-top"><div><h1>momo's new life</h1><div class="motto">Don't be afraid, you are free.</div></div><div style="display:flex;align-items:center;gap:10px"><div class="date-pill" id="dateDisplay"></div><div onclick="toggleSetup()" style="width:28px;height:28px;border-radius:50%;background:var(--ww);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.06);position:relative"><span id="syncDot" style="width:8px;height:8px;border-radius:50%;background:var(--coral);position:absolute;top:2px;right:2px"></span><span style="font-size:14px">⚙</span></div></div></div><div id="setupPanel" style="display:none;margin-top:14px;background:var(--ww);border-radius:16px;padding:18px;box-shadow:0 4px 16px rgba(0,0,0,0.08)"><h3 style="font-size:14px;font-weight:700;margin-bottom:10px">☁️ 跨设备同步设置</h3><p style="font-size:12px;color:var(--tm);margin-bottom:12px;line-height:1.6">只需3步：① 去 <a href="https://jsonbin.io" target="_blank" style="color:var(--acc);font-weight:600">jsonbin.io</a> 免费注册 → ② 复制你的 API Key → ③ 粘贴到下面，点「开始同步」</p><div style="margin-bottom:10px"><label style="font-size:11px;font-weight:600;color:var(--tmu)">API Key</label><input id="cfgKey" type="text" placeholder="粘贴你的 X-Master-Key..." style="width:100%;padding:8px 12px;border:1.5px solid var(--bdr);border-radius:10px;font-size:13px;margin-top:4px;font-family:DM Sans,sans-serif;outline:none;background:var(--cream)" onfocus="this.style.borderColor='var(--acc)'" onblur="this.style.borderColor='var(--bdr)'"></div><div id="cfgBinRow" style="margin-bottom:10px;display:none"><label style="font-size:11px;font-weight:600;color:var(--tmu)">Bin ID（自动生成，勿改）</label><input id="cfgBin" type="text" readonly style="width:100%;padding:8px 12px;border:1.5px solid var(--bdr);border-radius:10px;font-size:13px;margin-top:4px;font-family:DM Sans,sans-serif;background:var(--gs);color:var(--tm);outline:none"></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button onclick="doSetup()" style="padding:8px 18px;border:none;border-radius:12px;background:var(--text);color:var(--ww);font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">开始同步</button><button onclick="doSync()" style="padding:8px 18px;border:1.5px solid var(--bdr);border-radius:12px;background:var(--ww);color:var(--text);font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">↓ 从云端拉取</button></div><div id="syncMsg" style="font-size:11px;color:var(--tmu);margin-top:8px;font-style:italic"></div></div><div class="tabs" id="tabs"></div></div></div>
+<div class="content" id="content"></div>
+
+<script>
+const M=[
+{id:"2026-03",mo:"3月",fl:"2026年3月",ti:"调研定位 · 快速启动",ph:1,go:"完成市场调研和品牌定位，搞定账号搭建，首批货品到位；博士开始文献阅读和语言备考",
+ec:[{t:"竞品分析：研究20个复古饰品账号",m:"小红书搜索「复古饰品」，每天分析5个账号，记录风格/定价/数据"},{t:"确定品牌定位和目标客群",m:"写一份500字定位文档：风格调性、价格带、目标人群画像"},{t:"货源调研与首批采购",m:"1688搜索复古饰品工厂，对接3-5家供应商，试购20-30件"},{t:"小红书+闲鱼账号搭建",m:"注册账号，完善头像/简介/封面，确定视觉风格统一调性"},{t:"拍摄首批产品图片",m:"准备拍摄道具和背景布，学习复古饰品拍摄技巧"},{t:"小红书发布至少5篇笔记",m:"复古饰品搭配、单品故事、vintage文化科普等主题"},{t:"闲鱼上架10-15件商品",m:"精修产品图片，写有调性的标题和描述"}],
+pd:[{t:"建立文献管理系统",m:"安装Zotero，建立「AI+传播」文件夹，配置Google Scholar提醒"},{t:"开始系统阅读核心文献",m:"每周读2篇，做笔记录入Notion"},{t:"开始调研目标院校",m:"研究荷兰、北欧院校的传播学系"}],
+ie:[{t:"完成雅思模拟测试，确定基准分",m:"做一套完整的剑桥雅思真题，记录各科分数"},{t:"制定备考计划，购买学习资料",m:"购买剑桥雅思真题集+听力精听材料"},{t:"开始每日词汇积累",m:"每天背30个雅思核心词汇，用Anki或墨墨背单词"},{t:"开始听力基础训练",m:"每天精听15分钟BBC/雅思材料，逐句跟读"}]},
+{id:"2026-04",mo:"4月",fl:"2026年4月",ti:"内容冷启动 · 测试反馈",ph:1,go:"小红书发布10-15篇内容，闲鱼上架15件商品，找到有效内容形式；博士累读10篇文献",ec:[{t:"小红书发布10-15篇内容",m:"每周发3-4篇：复古饰品搭配、单品故事、vintage文化科普"},{t:"闲鱼上架15-20件商品",m:"精修产品图片，每周上新5件"},{t:"测试不同内容形式",m:"记录每篇赞/藏/评/转化数据，周末复盘对比"},{t:"尝试小红书引流到闲鱼",m:"笔记末尾加「闲鱼同名可拍」引导语"}],pd:[{t:"继续文献阅读，累计达10篇",m:"每周读2篇新文献，累计完成10篇核心文献笔记"},{t:"初步调研目标院校（10-15所）",m:"研究荷兰、北欧、德国院校传播学系，列出导师名单"}],
+ie:[{t:"听力：完成精听训练20天",m:"每天精听15分钟+听力Section1-2专项练习"},{t:"口语：积累Part1话题素材",m:"每天练习2个Part1话题，录音回听纠错"},{t:"词汇：累计掌握600+雅思词汇",m:"每天背30个新词+复习旧词"},{t:"阅读：每周做2篇阅读真题",m:"重点练习定位和同义替换能力"}]},
+{id:"2026-05",mo:"5月",fl:"2026年5月",ti:"首单突破 · 模式跑通",ph:1,go:"实现首单成交，建立基础转化链路；博士完成15篇文献笔记",ec:[{t:"实现首单成交",m:"优化商品标题和主图，参考竞品高转化案例"},{t:"优化转化链路",m:"小红书评论区积极回复，引导私信咨询，建立微信私域"},{t:"测试得物平台",m:"挑选5-10件适合得物风格的产品上架测试"}],pd:[{t:"文献累计达15篇，梳理研究问题",m:"写「研究问题初稿」，200字明确想研究什么"},{t:"缩小目标导师范围至5-8位",m:"研读导师近三年发表的论文，判断匹配度"}],
+ie:[{t:"听力：突破Section3-4",m:"每天精听学术场景材料，练习笔记速记"},{t:"口语：开始练Part2长篇独白",m:"每天练1个Part2话题，计时2分钟"},{t:"写作：开始Task1小作文训练",m:"每周写2篇图表描述，学习数据描述句型"},{t:"完成第二次模拟测试",m:"对比首次成绩，评估进步幅度"}]},
+{id:"2026-06",mo:"6月",fl:"2026年6月",ti:"稳定节奏 · 阶段总结",ph:1,go:"月均5-10单稳定成交；博士考出雅思，完成研究兴趣陈述",ec:[{t:"月均5-10单稳定成交",m:"保持每周发3-4篇+闲鱼每周上新5件的节奏"},{t:"确定核心爆款品类",m:"分析过去3个月销售数据，找到最畅销品类和价格带"},{t:"第一阶段复盘报告",m:"写一份半页复盘：什么有效、什么无效、下阶段调整方向"}],pd:[{t:"完成20篇文献笔记+研究兴趣陈述",m:"写500字研究兴趣陈述：问题、背景、为什么重要"}],
+ie:[{t:"听力目标达到6.0+",m:"每天做一套完整听力真题，错题精听"},{t:"口语：Part3深度讨论训练",m:"练习观点表达和展开论证能力"},{t:"写作：Task2大作文入门",m:"每周写1篇大作文，积累论点和论据"},{t:"阶段模拟测试，评估是否达5.5+",m:"如未达标，调整后续备考重点"}]},
+{id:"2026-07",mo:"7月",fl:"2026年7月",ti:"规模化 · 研究计划启动",ph:2,go:"电商月均收入2000-3000元，开始写研究计划",ec:[{t:"提升月均订单量至15-25单",m:"优化爆款品的库存和复购，稳定供应链"},{t:"尝试短视频内容",m:"每周拍1条复古饰品展示视频"},{t:"建立私域流量池",m:"引导成交客户加微信，建立爱好者社群"}],pd:[{t:"开始写研究计划草稿",m:"扩展为完整proposal：研究问题、文献回顾、方法论、预期贡献"},{t:"继续补充文献阅读",m:"每周读1-2篇新文献，充实literature review"}],
+ie:[{t:"进入强化刷题阶段",m:"每周做2套完整真题，严格计时"},{t:"听力冲刺6.5+",m:"重点攻克填空题和配对题"},{t:"口语找语伴或外教练习",m:"每周至少2次口语实战练习"},{t:"写作积累高分句型和论点库",m:"整理10个常考话题的论点框架"}]},
+{id:"2026-08",mo:"8月",fl:"2026年8月",ti:"套磁启动 · 运营优化",ph:2,go:"发出首批套磁邮件，电商开始建立SOP",ec:[{t:"优化运营SOP",m:"建立内容模板库、图片预设风格，批量生产内容"},{t:"探索开通小红书店铺",m:"了解开店条件，如符合则申请"}],pd:[{t:"完成研究计划第一稿",m:"找人帮忙校对，确保逻辑清晰"},{t:"发出3-5封套磁邮件",m:"写个性化邮件，提及对导师研究的具体兴趣点"},{t:"准备CV和动机信",m:"制作英文CV，突出实践经验和研究潜力"}],
+ie:[{t:"写作突破6.0+",m:"每周写3篇作文（2篇Task2+1篇Task1），找人批改"},{t:"口语模拟考试练习",m:"按真实考试流程完整练习，录音复盘"},{t:"听力阅读保持刷题节奏",m:"每周各做2套真题保持手感"}]},
+{id:"2026-09",mo:"9月",fl:"2026年9月",ti:"材料完善 · 电商稳定",ph:2,go:"博士全套材料基本就绪，电商月均收入3000-5000元",ec:[{t:"电商月均收入3000-5000元",m:"稳定爆款品复购+新品测款的节奏"},{t:"考虑淘宝开店可行性",m:"如条件成熟，启动淘宝店"}],pd:[{t:"完善全套申请材料",m:"CV+动机信+研究计划+成绩单+语言成绩全部就绪"},{t:"根据套磁反馈修改研究计划",m:"根据导师回复调整proposal方向"},{t:"联系推荐人写推荐信",m:"提前联系硕士导师和业界推荐人"}],
+ie:[{t:"冲刺阶段：全真模拟每周1次",m:"严格按考试时间和流程模拟"},{t:"听力口语最后突破",m:"重点攻克弱项题型，口语练到自然流畅"},{t:"报名考试（9-10月考）",m:"选择合适考点和日期报名"}]},
+{id:"2026-10",mo:"10月",fl:"2026年10月",ti:"开始投递 · 电商半自动",ph:2,go:"投递首批岗位，电商运营半自动化",ec:[{t:"电商SOP完善，每周只需10-15小时",m:"内容素材库+发布模板，批量化运营"},{t:"积累私域流量池复购",m:"社群定期上新预告+老客户优惠"}],pd:[{t:"投递首批岗位（3-5个）",m:"持续刷Academic Transfer、academics.de"},{t:"尝试投稿学术会议",m:"将电商实践转化为会议摘要"}],
+ie:[{t:"参加雅思考试，目标7.0",m:"考前一周轻复习，调整状态"},{t:"如未达标，11月补考",m:"分析失分项，针对性突破后再战"}]},
+{id:"2026-11",mo:"11-12月",fl:"2026年11-12月",ti:"密集投递 · 年度总结",ph:2,go:"累计投递8-12个岗位，电商年度复盘",ec:[{t:"电商稳定运营，规划远程方案",m:"规划出国后电商怎么远程维持或找人接手"},{t:"年度复盘",m:"全年数据复盘：收入、增长曲线、爆款品分析"}],pd:[{t:"继续投递新发布的岗位",m:"每发现合适岗位立即定制材料投递"},{t:"准备面试",m:"模拟面试：用1分钟英文介绍研究计划"},{t:"年度博士申请总结",m:"评估回复情况，调整明年策略"}],
+ie:[{t:"如需补考，11月完成",m:"确保年底前拿到7.0成绩"},{t:"成绩达标后转为英语保持",m:"每天看英文文献/播客保持语感"}]},
+{id:"2027-H1",mo:"27上",fl:"2027年1-6月",ti:"冲刺 offer",ph:3,go:"获得博士 offer，电商可远程运营",ec:[{t:"电商低维护运营或找合伙人",m:"将运营简化为SOP手册，方便交接"},{t:"规划远程维护方案",m:"考虑找人代运营或转为纯私域模式"}],pd:[{t:"继续投递新岗位",m:"持续刷岗位，每个合适的都投"},{t:"参加面试，拿下offer",m:"提前准备欧洲签证材料"}],
+ie:[{t:"英语保持：每天听英文播客30min",m:"推荐BBC 6 Minute English、TED Daily"}]},
+{id:"2027-H2",mo:"27下",fl:"2027年7-12月",ti:"过渡与启程",ph:3,go:"顺利开启博士生活，电商持续产生被动收入",ec:[{t:"电商完成交接或远程化",m:"每周只花3-5小时维护"}],pd:[{t:"开始博士研究工作",m:"享受新旅程！电商经验成为你研究的独特资源"}],
+ie:[{t:"在英语环境中自然提升",m:"沉浸式学术英语环境"}]}
+];
+
+const MT=[
+{w:"Week 1 — 3/6 ~ 3/9",d:[
+{dt:"3/6 周五",e:["小红书搜「复古饰品」，收藏5个头部账号","记录其风格、定价、内容形式"],p:["下载安装Zotero","建立「AI+传播」文件夹"],i:["下载雅思真题app或购买剑桥雅思","背20个雅思核心词汇"]},
+{dt:"3/7 周六",e:["继续分析5个复古饰品账号","开始研究闲鱼复古饰品卖家"],p:["Google Scholar搜索核心关键词","下载前5篇高引论文"],i:["做一套完整雅思模拟题（测基准分）"]},
+{dt:"3/8 周日",e:["上午：1688搜索复古饰品供应商","下午：对比3-5家供应商产品和价格"],p:["晚上读第1篇文献，做Zotero笔记"],i:["分析模拟题成绩，找出最弱项","背20个雅思核心词汇"]},
+{dt:"3/9 周一",e:["晚上写本周复盘 + 下周计划"],p:["上午调研目标院校"],i:["制定雅思每周学习计划","下午休息"]}]},
+{w:"Week 2 — 3/10 ~ 3/16",d:[
+{dt:"3/10 周二",e:["继续分析竞品账号（累计15个）","开始思考自己的风格定位"],p:["读第2篇文献 + 笔记"],i:["精听练习15min + 背词30个","听力Section1专项练习"]},
+{dt:"3/11 周三",e:["完成竞品分析表（20个账号）","整理发现和模式"],p:["读文献笔记整理"],i:["口语Part1：2个话题录音练习","背词复习+新词20个"]},
+{dt:"3/12 周四",e:["写品牌定位文档草稿","确定风格调性、价格带、目标人群"],p:["雅思写作练习 30min"],i:["精听练习15min","阅读真题1篇+精读错题"]},
+{dt:"3/13 周五",e:["确定1688供应商首批采购清单","小批量下单试购20-30件"],p:["读第3篇文献 + 笔记"],i:["口语Part1：2个新话题","背词30个"]},
+{dt:"3/14 周六",e:["注册小红书账号","设计头像、写简介、确定视觉风格"],p:["调研院校笔记"],i:["听力Section2专项练习","精听15min"]},
+{dt:"3/15 周日",e:["上午：注册闲鱼账号，完善资料","下午：研究闲鱼复古饰品定价策略"],p:["晚上读第4篇文献 + 笔记"],i:["做一套听力完整真题","口语话题复习"]},
+{dt:"3/16 周一",e:["晚上周复盘 + 下周计划"],p:["院校调研"],i:["背词复习本周所有新词","下午休息"]}]},
+{w:"Week 3 — 3/17 ~ 3/23",d:[
+{dt:"3/17 周二",e:["等待货品到货，研究拍摄方法","准备拍摄道具和背景布"],p:["读第5篇文献 + 笔记","配置Google Scholar关键词提醒"],i:["精听15min + 听力Section3练习","背词30个"]},
+{dt:"3/18 周三",e:["学习复古饰品拍摄技巧","练习拍摄3-5张样图"],p:["文献笔记整理"],i:["口语Part2：练习1个话题（计时2min）","背词复习"]},
+{dt:"3/19 周四",e:["货品到货后筛选质量","分类整理，为拍摄做准备"],p:["院校调研"],i:["阅读真题1篇 + 精读","精听15min"]},
+{dt:"3/20 周五",e:["策划首批小红书内容主题（5篇）","写出文案框架"],p:["读第6篇文献 + 笔记"],i:["口语Part2：练习1个新话题","背词30个"]},
+{dt:"3/21 周六",e:["拍摄首批产品图片（5-8件）","编辑第1篇小红书笔记内容"],p:["调研院校"],i:["听力Section4专项","精听15min"]},
+{dt:"3/22 周日",e:["上午：继续拍摄和编辑产品图片","下午：闲鱼上架首批5-8件商品"],p:["晚上调研目标院校（荷兰篇）"],i:["做一套完整阅读真题","口语本周话题复习"]},
+{dt:"3/23 周一",e:["晚上周复盘 + 下周计划"],p:["文献笔记"],i:["背词复习本周所有新词","下午休息"]}]},
+{w:"Week 4 — 3/24 ~ 3/31",d:[
+{dt:"3/24 周二",e:["发布小红书第1篇笔记","观察反馈数据"],p:["读第7篇文献 + 笔记"],i:["精听15min + 听力真题练习","背词30个"]},
+{dt:"3/25 周三",e:["写+编辑第2-3篇小红书内容","闲鱼继续上架5件新品"],p:["文献笔记"],i:["口语Part1+Part2各练1题","背词复习"]},
+{dt:"3/26 周四",e:["发布第2篇小红书笔记","回复闲鱼咨询消息"],p:["院校调研"],i:["阅读真题1篇","精听15min"]},
+{dt:"3/27 周五",e:["发布第3篇小红书笔记","分析前3篇的数据表现"],p:["读第8篇文献 + 笔记"],i:["口语：录音练习2个话题","背词30个"]},
+{dt:"3/28 周六",e:["写+编辑第4-5篇小红书内容","闲鱼继续上新、优化标题和图片"],p:["调研院校（北欧篇）"],i:["听力完整真题1套","精听15min"]},
+{dt:"3/29 周日",e:["上午：拍摄第二批产品图片","下午：发布第4-5篇小红书笔记"],p:["文献笔记整理"],i:["阅读完整真题1套","口语本周话题复习"]},
+{dt:"3/30 周一",e:["晚上周复盘 + 写3月总结"],p:["文献总结"],i:["本月雅思学习总结","下午休息"]},
+{dt:"3/31 周二",e:["整理本月数据：发布量/流量/咨询量","制定4月内容计划"],p:["整理本月文献笔记"],i:["规划4月雅思备考重点","总结本月词汇量和薄弱项"]}]}
+];
+
+const CK=[{l:"竞品分析",t:"完成20个账号分析表"},{l:"品牌定位",t:"完成500字定位文档"},{l:"供应商",t:"确定3-5家备选供应商"},{l:"首批采购",t:"到货20-30件样品"},{l:"账号搭建",t:"小红书+闲鱼就绪"},{l:"小红书",t:"发布至少5篇笔记"},{l:"闲鱼上架",t:"上架10-15件商品"},{l:"Zotero",t:"文献管理搭建完成"},{l:"文献阅读",t:"完成8篇核心文献笔记"},{l:"院校调研",t:"开始调研荷兰/北欧院校"},{l:"雅思基准测试",t:"完成模拟题，确定基准分"},{l:"雅思词汇",t:"累计背诵300+核心词汇"},{l:"雅思听力",t:"完成精听训练15天以上"},{l:"雅思口语",t:"积累10个Part1话题素材"}];
+
+let S={at:"today",sm:"2026-03",tc:{},cc:{},mn:{}};
+let CFG={binId:"",apiKey:"",syncing:false,lastSync:""};
+
+function ldCfg(){try{const c=localStorage.getItem("momo-cfg");if(c)Object.assign(CFG,JSON.parse(c))}catch(e){}}
+function svCfg(){try{localStorage.setItem("momo-cfg",JSON.stringify(CFG))}catch(e){}}
+
+// Local storage (always works as backup)
+function ldLocal(){try{const s=localStorage.getItem("momo-v5");if(s)Object.assign(S,JSON.parse(s))}catch(e){}}
+function svLocal(){try{localStorage.setItem("momo-v5",JSON.stringify({tc:S.tc,cc:S.cc,mn:S.mn,at:S.at,sm:S.sm}))}catch(e){}}
+
+// Cloud sync via JSONBin
+async function cloudSave(){
+  if(!CFG.binId||!CFG.apiKey)return;
+  CFG.syncing=true;renderSyncStatus();
+  try{
+    const data={tc:S.tc,cc:S.cc,mn:S.mn};
+    await fetch("https://api.jsonbin.io/v3/b/"+CFG.binId,{
+      method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":CFG.apiKey},
+      body:JSON.stringify(data)
+    });
+    CFG.lastSync=new Date().toLocaleString("zh-CN");svCfg();
+  }catch(e){console.log("sync save err",e)}
+  CFG.syncing=false;renderSyncStatus();
+}
+
+async function cloudLoad(){
+  if(!CFG.binId||!CFG.apiKey)return false;
+  try{
+    const r=await fetch("https://api.jsonbin.io/v3/b/"+CFG.binId+"/latest",{
+      headers:{"X-Master-Key":CFG.apiKey}
+    });
+    const j=await r.json();
+    if(j.record){
+      if(j.record.tc)S.tc=j.record.tc;
+      if(j.record.cc)S.cc=j.record.cc;
+      if(j.record.mn)S.mn=j.record.mn;
+      svLocal();
+      CFG.lastSync=new Date().toLocaleString("zh-CN");svCfg();
+      return true;
+    }
+  }catch(e){console.log("sync load err",e)}
+  return false;
+}
+
+// Create new bin
+async function createBin(){
+  if(!CFG.apiKey)return;
+  try{
+    const r=await fetch("https://api.jsonbin.io/v3/b",{
+      method:"POST",headers:{"Content-Type":"application/json","X-Master-Key":CFG.apiKey,"X-Bin-Private":true},
+      body:JSON.stringify({tc:{},cc:{},mn:{}})
+    });
+    const j=await r.json();
+    if(j.metadata&&j.metadata.id){CFG.binId=j.metadata.id;svCfg();return true}
+  }catch(e){console.log("create bin err",e)}
+  return false;
+}
+
+let syncTimer;
+function sv(){svLocal();clearTimeout(syncTimer);syncTimer=setTimeout(cloudSave,2000)}
+function ld(){ldCfg();ldLocal()}
+
+function renderSyncStatus(){
+  const el=document.getElementById("syncDot");
+  if(el)el.style.background=CFG.syncing?"var(--yellow)":((CFG.binId&&CFG.apiKey)?"var(--gd)":"var(--coral)");
+}
+
+const td=new Date(),tD=td.getDate(),tMo=td.getMonth()+1,tS=tMo+"/"+tD;
+
+function gMP(id){const m=M.find(x=>x.id===id);if(!m)return 0;const ie=m.ie||[];const t=m.ec.length+m.pd.length+ie.length;let d=0;m.ec.forEach((_,i)=>{if(S.cc[id+"-e-"+i])d++});m.pd.forEach((_,i)=>{if(S.cc[id+"-p-"+i])d++});ie.forEach((_,i)=>{if(S.cc[id+"-i-"+i])d++});return t?Math.round(d/t*100):0}
+function gTP(){let t=0,d=0;MT.forEach((w,wi)=>{w.d.forEach((dy,di)=>{dy.e.forEach((_,ti)=>{t++;if(S.tc[wi+"-"+di+"-e-"+ti])d++});dy.p.forEach((_,ti)=>{t++;if(S.tc[wi+"-"+di+"-p-"+ti])d++});(dy.i||[]).forEach((_,ti)=>{t++;if(S.tc[wi+"-"+di+"-i-"+ti])d++})})});return t?Math.round(d/t*100):0}
+function gCP(){let d=0;CK.forEach((_,i)=>{if(S.cc["mc-"+i])d++});return Math.round(d/CK.length*100)}
+
+function pb(v,c){return'<div class="pb"><div class="pf" style="width:'+v+"%;background:"+c+'"></div></div>'}
+function ci(k,txt,st){const ck=S[st][k];return'<div class="check-item" onclick="tog(\''+st+"','"+k+'\')"><div class="cb '+(ck?"ck":"")+'">'+( ck?"✓":"")+'</div><span class="ct '+(ck?"ck":"")+'">'+txt+"</span></div>"}
+function ptg(p){const l={1:"启动期 70:30",2:"成长期 50:50",3:"收获期 30:70"};return'<span class="pt p'+p+'">'+l[p]+"</span>"}
+function fTd(){for(let wi=0;wi<MT.length;wi++)for(let di=0;di<MT[wi].d.length;di++){const d=MT[wi].d[di];if(d.dt.startsWith(tS+" "))return{...d,wi,di,wk:MT[wi].w}}return null}
+
+function render(){
+document.getElementById("dateDisplay").innerHTML=td.getFullYear()+"."+tMo+"."+tD;
+const tabs=[{id:"today",lb:"☀️ 今日",bg:null},{id:"march",lb:"✅ 3月",bg:gTP()},{id:"monthly",lb:"🎯 月度",bg:null},{id:"timeline",lb:"🗺️ 全局",bg:null}];
+document.getElementById("tabs").innerHTML=tabs.map(t=>'<button class="tab-btn '+(S.at===t.id?"active":"")+'" onclick="go(\''+t.id+'\')">'+t.lb+(t.bg!==null?'<span class="badge">'+t.bg+"%</span>":"")+"</button>").join("");
+const el=document.getElementById("content");
+if(S.at==="today")el.innerHTML=rToday();
+else if(S.at==="march")el.innerHTML=rMarch();
+else if(S.at==="monthly")el.innerHTML=rMo();
+else el.innerHTML=rTL()}
+
+function rToday(){
+const t=fTd();let h="";
+const tp=gTP(),cp=gCP(),mp=gMP("2026-03");
+h+='<div class="stat-row"><div class="stat-chip" style="background:var(--ys)"><div class="num" style="color:var(--text)">'+tp+'%</div><div class="lbl">3月进度</div></div><div class="stat-chip" style="background:var(--ps)"><div class="num" style="color:var(--ecom)">'+cp+'%</div><div class="lbl">检查点</div></div><div class="stat-chip" style="background:var(--gs)"><div class="num" style="color:var(--phd)">'+mp+'%</div><div class="lbl">月度目标</div></div></div>';
+
+if(t){
+h+='<div class="card card-l"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><span style="font-size:22px">☀️</span><h2 style="font-family:Playfair Display,serif;font-size:22px;font-weight:400;font-style:italic">'+t.dt+'</h2></div><p style="font-size:12px;color:var(--tmu);margin-bottom:18px;font-style:italic">'+t.wk+'</p>';
+h+='<div style="margin-bottom:18px"><div style="margin-bottom:8px"><span class="pill pill-e">🛒 电商任务</span></div><div style="background:var(--ps);border-radius:16px;padding:6px 16px;border:1px solid rgba(242,160,184,0.25)">';
+t.e.forEach((task,i)=>{h+=ci(t.wi+"-"+t.di+"-e-"+i,task,"tc")});
+h+='</div></div><div><div style="margin-bottom:8px"><span class="pill pill-p">🎓 博士任务</span></div><div style="background:var(--gs);border-radius:16px;padding:6px 16px;border:1px solid rgba(184,212,160,0.3)">';
+t.p.forEach((task,i)=>{h+=ci(t.wi+"-"+t.di+"-p-"+i,task,"tc")});
+h+='</div></div>';
+if(t.i&&t.i.length){h+='<div style="margin-top:18px"><div style="margin-bottom:8px"><span class="pill pill-i">📘 雅思任务</span></div><div style="background:var(--bs);border-radius:16px;padding:6px 16px;border:1px solid rgba(164,200,224,0.3)">';
+t.i.forEach((task,i)=>{h+=ci(t.wi+"-"+t.di+"-i-"+i,task,"tc")});
+h+='</div></div>'}
+h+='</div>';
+}else{h+='<div class="card card-l es"><div class="ic">🌿</div><h3>Today is free</h3><p>查看「3月」标签了解完整任务安排</p></div>'}
+
+h+='<div class="card card-pc"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px"><h3 style="font-family:Playfair Display,serif;font-size:17px;font-weight:400;font-style:italic">Milestones</h3><span style="font-size:13px;font-weight:700;color:var(--acc)">'+gCP()+'%</span></div>'+pb(gCP(),"var(--acc)")+'<div style="margin-top:14px">';
+CK.forEach((item,i)=>{h+=ci("mc-"+i,"<strong>"+item.l+"</strong> — "+item.t,"cc")});
+h+="</div></div>";return h}
+
+function rMarch(){
+let h='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px"><h2 class="st">March To-Do</h2><div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;color:var(--tmu);font-weight:600">'+gTP()+'%</span><div style="width:80px">'+pb(gTP(),"var(--acc)")+"</div></div></div>";
+MT.forEach((week,wi)=>{
+h+='<div class="wh">'+week.w+"</div>";
+week.d.forEach((day,di)=>{
+const isT=day.dt.startsWith(tS+" ");
+h+='<div class="dc '+(isT?"ist":"")+'"><div class="dt">'+(isT?'<span class="tb">TODAY</span>':"")+day.dt+"</div>";
+h+='<div class="tc"><div><div style="margin-bottom:6px"><span class="pill pill-e" style="font-size:10px;padding:2px 10px">🛒 电商</span></div>';
+day.e.forEach((t,ti)=>{h+=ci(wi+"-"+di+"-e-"+ti,t,"tc")});
+h+='</div><div><div style="margin-bottom:6px"><span class="pill pill-p" style="font-size:10px;padding:2px 10px">🎓 博士</span></div>';
+day.p.forEach((t,ti)=>{h+=ci(wi+"-"+di+"-p-"+ti,t,"tc")});
+h+='</div>';
+if(day.i&&day.i.length){h+='<div><div style="margin-bottom:6px"><span class="pill pill-i" style="font-size:10px;padding:2px 10px">📘 雅思</span></div>';
+day.i.forEach((t,ti)=>{h+=ci(wi+"-"+di+"-i-"+ti,t,"tc")});
+h+='</div>'}
+h+="</div></div>"});h+='<div style="height:12px"></div>'});return h}
+
+function rMo(){
+const m=M.find(x=>x.id===S.sm);
+let h='<div class="ms">'+M.map(x=>'<button class="mb '+(S.sm===x.id?"ac":"")+'" onclick="sm(\''+x.id+'\')">'+x.mo+"</button>").join("")+"</div>";
+if(!m)return h;const prog=gMP(m.id);
+h+='<div class="card card-w"><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap"><h2 style="font-family:Playfair Display,serif;font-size:20px;font-weight:400;font-style:italic">'+m.fl+"</h2>"+ptg(m.ph)+'</div><h3 style="font-size:15px;font-weight:600;color:var(--acc);margin-bottom:6px">'+m.ti+'</h3><p style="font-size:13px;color:var(--tmu);margin-bottom:14px;line-height:1.6">'+m.go+"</p>"+pb(prog,"var(--acc)")+'<div style="font-size:11px;color:var(--tmu);margin-top:5px">'+prog+"% 完成</div></div>";
+
+h+='<div class="card card-p"><h4 style="font-size:14px;font-weight:700;color:var(--ecom);margin-bottom:14px"><span class="pill pill-e">🛒 电商线</span></h4>';
+m.ec.forEach((item,i)=>{h+=ci(m.id+"-e-"+i,"<strong>"+item.t+"</strong>","cc")+'<div class="ch">💡 '+item.m+"</div>"});h+="</div>";
+
+h+='<div class="card card-g"><h4 style="font-size:14px;font-weight:700;color:var(--phd);margin-bottom:14px"><span class="pill pill-p">🎓 博士线</span></h4>';
+m.pd.forEach((item,i)=>{h+=ci(m.id+"-p-"+i,"<strong>"+item.t+"</strong>","cc")+'<div class="ch">💡 '+item.m+"</div>"});h+="</div>";
+
+const ie=m.ie||[];
+if(ie.length){h+='<div class="card card-b"><h4 style="font-size:14px;font-weight:700;color:#5A9ABF;margin-bottom:14px"><span class="pill pill-i">📘 雅思线</span></h4>';
+ie.forEach((item,i)=>{h+=ci(m.id+"-i-"+i,"<strong>"+item.t+"</strong>","cc")+'<div class="ch">💡 '+item.m+"</div>"});h+="</div>"}
+
+h+='<div class="card card-w"><h4 style="font-family:Playfair Display,serif;font-size:15px;font-weight:400;font-style:italic;margin-bottom:10px">Monthly Notes</h4><textarea class="na" id="nA" placeholder="记录本月进展、遇到的问题、下月调整方向..." oninput="un()">'+(S.mn[m.id]||"")+'</textarea><p style="font-size:10px;color:var(--tmu);margin-top:6px;font-style:italic">auto-saved</p></div>';return h}
+
+function rTL(){
+const phases=[{l:"启动期",s:"2026.3-6",r:"电商70 : 博士30",bg:"var(--ls)",bc:"rgba(196,180,226,0.3)",c:"var(--ld)"},{l:"成长期",s:"2026.7-12",r:"电商50 : 博士50",bg:"var(--ps)",bc:"rgba(242,160,184,0.3)",c:"var(--ecom)"},{l:"收获期",s:"2027",r:"电商30 : 博士70",bg:"var(--gs)",bc:"rgba(184,212,160,0.3)",c:"var(--phd)"}];
+let h='<h2 class="st">Timeline</h2><div class="po">'+phases.map(p=>'<div class="pc" style="background:'+p.bg+";border:1.5px solid "+p.bc+'"><div style="font-size:13px;font-weight:700;color:'+p.c+'">'+p.l+'</div><div style="font-size:11px;color:var(--tmu);margin:3px 0">'+p.s+'</div><div style="font-size:10px;color:var(--tmu)">'+p.r+"</div></div>").join("")+"</div>";
+const pC=["var(--ld)","var(--ecom)","var(--phd)"],pB=["var(--ls)","var(--ps)","var(--gs)"];
+M.forEach(m=>{const prog=gMP(m.id),c=pC[m.ph-1],bg=pB[m.ph-1];
+h+='<div class="ti" onclick="sm(\''+m.id+'\');go(\'monthly\')"><div class="tn" style="background:'+bg+";color:"+c+'">'+m.mo.replace("月","")+'</div><div style="flex:1;min-width:0"><div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;flex-wrap:wrap"><span style="font-size:13px;font-weight:600">'+m.ti+"</span>"+ptg(m.ph)+'</div><div style="margin-top:4px">'+pb(prog,c)+'</div></div><div style="font-size:13px;font-weight:700;color:var(--acc);min-width:36px;text-align:right">'+prog+'%</div><div style="color:var(--tmu);font-size:18px">›</div></div>'});return h}
+
+window.go=function(t){S.at=t;sv();render();scrollTo(0,0)};
+window.sm=function(id){S.sm=id;sv();render()};
+window.tog=function(st,k){S[st][k]=!S[st][k];sv();render()};
+let nt;window.un=function(){const el=document.getElementById("nA");if(el){S.mn[S.sm]=el.value;clearTimeout(nt);nt=setTimeout(sv,500)}};
+
+window.toggleSetup=function(){
+  const p=document.getElementById("setupPanel");
+  const show=p.style.display==="none";
+  p.style.display=show?"block":"none";
+  if(show){
+    document.getElementById("cfgKey").value=CFG.apiKey||"";
+    if(CFG.binId){document.getElementById("cfgBin").value=CFG.binId;document.getElementById("cfgBinRow").style.display="block"}
+    const msg=document.getElementById("syncMsg");
+    if(CFG.lastSync)msg.textContent="上次同步："+CFG.lastSync;
+    else if(CFG.binId)msg.textContent="已配置，自动同步中";
+    else msg.textContent="";
+  }
+};
+window.doSetup=async function(){
+  const msg=document.getElementById("syncMsg");
+  const key=document.getElementById("cfgKey").value.trim();
+  if(!key){msg.textContent="⚠️ 请先粘贴 API Key";return}
+  CFG.apiKey=key;svCfg();
+  msg.textContent="⏳ 正在配置...";
+  if(!CFG.binId){
+    const ok=await createBin();
+    if(!ok){msg.textContent="❌ 创建失败，请检查 API Key 是否正确";return}
+    document.getElementById("cfgBin").value=CFG.binId;
+    document.getElementById("cfgBinRow").style.display="block";
+  }
+  await cloudSave();
+  msg.textContent="✅ 同步成功！Bin ID: "+CFG.binId;
+  renderSyncStatus();
+  msg.textContent+=" — 现在在另一台设备打开同一网址，粘贴相同的 API Key 和 Bin ID 即可同步";
+};
+window.doSync=async function(){
+  const msg=document.getElementById("syncMsg");
+  const key=document.getElementById("cfgKey").value.trim();
+  const bin=document.getElementById("cfgBin").value.trim();
+  if(!key){msg.textContent="⚠️ 请先粘贴 API Key";return}
+  CFG.apiKey=key;
+  if(bin)CFG.binId=bin;
+  svCfg();
+  if(!CFG.binId){msg.textContent="⚠️ 请先点「开始同步」创建，或输入已有的 Bin ID";document.getElementById("cfgBinRow").style.display="block";return}
+  msg.textContent="⏳ 正在从云端拉取...";
+  const ok=await cloudLoad();
+  if(ok){msg.textContent="✅ 拉取成功！数据已更新";render()}
+  else{msg.textContent="❌ 拉取失败，请检查 API Key 和 Bin ID"}
+  renderSyncStatus();
+};
+
+ld();render();renderSyncStatus();
+// Auto-load from cloud on startup
+if(CFG.binId&&CFG.apiKey){cloudLoad().then(ok=>{if(ok)render()})}
+</script>
+</body>
+</html>
